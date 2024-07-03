@@ -1,6 +1,7 @@
 package com.rf.api_examen_final_202020245.controller;
 
 import com.rf.api_examen_final_202020245.dto.CertificacionDto;
+import com.rf.api_examen_final_202020245.dto.CertificacionSummaryDto;
 import com.rf.api_examen_final_202020245.entities.Certificacion;
 import com.rf.api_examen_final_202020245.entities.User;
 import com.rf.api_examen_final_202020245.service.CertificacionService;
@@ -35,6 +36,11 @@ public class CertificacionController {
         return ResponseEntity.ok(certificaciones);
     }
 
+    @GetMapping("/user/{userId}/summary")
+    public ResponseEntity<CertificacionSummaryDto> getUserCertificationsSummary(@PathVariable Long userId) {
+        CertificacionSummaryDto summary = certificacionService.getUserCertificationsSummary(userId);
+        return ResponseEntity.ok(summary);
+    }
     @PostMapping
     public ResponseEntity<Certificacion> createCertification(@RequestBody CertificacionDto certificacionDto) {
         Long userId = certificacionDto.getUserId();
@@ -45,7 +51,7 @@ public class CertificacionController {
         certificacion.setFecha(certificacionDto.getFecha());
         certificacion.setTipo(certificacionDto.getTipo());
         certificacion.setPrecio(certificacionDto.getPrecio());
-        certificacion.setUser(user); // Asignar el usuario basado en el userId del DTO
+        certificacion.setUser(user);
 
         Certificacion newCertificacion = certificacionService.saveCertification(certificacion);
         return ResponseEntity.ok(newCertificacion);

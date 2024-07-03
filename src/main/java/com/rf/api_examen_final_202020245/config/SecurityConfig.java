@@ -42,8 +42,8 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((authorize) -> {
                     authorize.requestMatchers("/api/authenticate", "/api/register").permitAll();
-                    authorize.requestMatchers(HttpMethod.POST, "/api/certificaciones").permitAll(); // Permitir POST a certificaciones sin autenticación
-                    authorize.requestMatchers("/api/certificaciones/all","/api/certificaciones/user/{userId}").permitAll();
+                    authorize.requestMatchers(HttpMethod.POST, "/api/certificaciones").permitAll();
+                    authorize.requestMatchers("/api/certificaciones/all","/api/certificaciones/user/{userId}","/api/certificaciones/user/{userId}/summary").permitAll();
                     authorize.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
                     authorize.anyRequest().authenticated();
                 }).httpBasic(Customizer.withDefaults());

@@ -15,5 +15,4 @@ public class CertificacionDto {
     private String tipo;
     private Double precio;
     private Long userId;
-
 }

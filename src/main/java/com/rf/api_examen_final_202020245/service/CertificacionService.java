@@ -1,5 +1,6 @@
 package com.rf.api_examen_final_202020245.service;
 
+import com.rf.api_examen_final_202020245.dto.CertificacionSummaryDto;
 import com.rf.api_examen_final_202020245.entities.Certificacion;
 import com.rf.api_examen_final_202020245.repositories.CertificacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,4 +25,12 @@ public class CertificacionService {
     public List<Certificacion> getAllCertifications() {
         return certificacionRepository.findAll();
     }
+
+    public CertificacionSummaryDto getUserCertificationsSummary(Long userId) {
+        List<Certificacion> certificaciones = certificacionRepository.findByUserId(userId);
+        int cantidad = certificaciones.size();
+        double precioTotal = certificaciones.stream().mapToDouble(Certificacion::getPrecio).sum();
+        return new CertificacionSummaryDto(cantidad, precioTotal);
+    }
+
 }
