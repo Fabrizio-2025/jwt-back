@@ -23,23 +23,30 @@ public class CertificacionController {
     @Autowired
     private UserService userService;
 
-    @GetMapping
-    public ResponseEntity<List<Certificacion>> getAllCertifications(Authentication authentication) {
-        Long userId = ((UserDetailsImpl) authentication.getPrincipal()).getId();
+    @GetMapping("/all")
+    public ResponseEntity<List<Certificacion>> getAllCertifications() {
+        List<Certificacion> certificaciones = certificacionService.getAllCertifications();
+        return ResponseEntity.ok(certificaciones);
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Certificacion>> getAllByUserId(@PathVariable Long userId) {
         List<Certificacion> certificaciones = certificacionService.getCertificationsByUserId(userId);
         return ResponseEntity.ok(certificaciones);
     }
 
     @PostMapping
-    public ResponseEntity<Certificacion> createCertification(@RequestBody CertificacionDto certificacionDto, Authentication authentication) {
-        Long userId = ((UserDetailsImpl) authentication.getPrincipal()).getId();
+    public ResponseEntity<Certificacion> createCertification(@RequestBody CertificacionDto certificacionDto) {
+        Long userId = certificacionDto.getUserId();
+        User user = userService.getUserById(userId);
+
         Certificacion certificacion = new Certificacion();
         certificacion.setNombre(certificacionDto.getNombre());
         certificacion.setFecha(certificacionDto.getFecha());
         certificacion.setTipo(certificacionDto.getTipo());
         certificacion.setPrecio(certificacionDto.getPrecio());
-        User user = userService.getUserById(userId);
-        certificacion.setUser(user);
+        certificacion.setUser(user); // Asignar el usuario basado en el userId del DTO
+
         Certificacion newCertificacion = certificacionService.saveCertification(certificacion);
         return ResponseEntity.ok(newCertificacion);
     }

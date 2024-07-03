@@ -3,15 +3,17 @@ package com.rf.api_examen_final_202020245.controller;
 import com.rf.api_examen_final_202020245.dto.JwtRequest;
 import com.rf.api_examen_final_202020245.dto.JwtResponse;
 import com.rf.api_examen_final_202020245.service.JwtUserDetailsService;
+import com.rf.api_examen_final_202020245.service.UserDetailsImpl;
 import com.rf.api_examen_final_202020245.util.JwtTokenUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class AuthController {
@@ -37,7 +39,8 @@ public class AuthController {
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
+        final Long userId = ((UserDetailsImpl) userDetails).getId(); // Asegúrate de que UserDetailsImpl tenga el método getId()
 
-        return ResponseEntity.ok(new JwtResponse(token));
+        return ResponseEntity.ok(new JwtResponse(token, userId));
     }
 }

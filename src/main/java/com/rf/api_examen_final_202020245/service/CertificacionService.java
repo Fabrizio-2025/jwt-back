@@ -20,4 +20,8 @@ public class CertificacionService {
     public Certificacion saveCertification(Certificacion certificacion) {
         return certificacionRepository.save(certificacion);
     }
+
+    public List<Certificacion> getAllCertifications() {
+        return certificacionRepository.findAll();
+    }
 }
