@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.rf</groupId>
-    <artifactId>api_examen_final_202020245</artifactId>
+    <artifactId>api_examen_final_2</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>api_examen_final_202020245</name>
     <description>api_examen_final_202020245</description>
